@@ -7,18 +7,20 @@ import numpy as np
 class CoverageEstimator(object):
     TEST_SIZE = 0.25
 
-    def __init__(self, embedding_model, prediction_model, is_binary):
+    def __init__(self, embedding_model, prediction_model, is_binary, binary_coverage_threshold=0):
         self.__embedding_model = embedding_model
         self.__prediction_model = prediction_model
         self.__is_binary = is_binary
+        self.__binary_coverage_threshold = binary_coverage_threshold
 
     def load_data(self, data_path):
         return np.genfromtxt(data_path, dtype=str, delimiter=',', skip_header=1)
 
     def __extract_coverage_value(self, coverage_str):
+        coverage = int(coverage_str)
         if self.__is_binary:
-            return 0 if coverage_str == "0" else 1
-        return int(coverage_str) * 0.01
+            return 0 if coverage <= self.__binary_coverage_threshold else 1
+        return coverage * 0.01
 
     def train(self, training_set):
         can_be_trained = self.__prediction_model.can_be_trained()

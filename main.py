@@ -7,7 +7,8 @@ from consts import *
 def main():
     embedding_model = CodeBertEmbeddingModel(CODE_BASE_ROOT_DIR)
     prediction_model = SimilarityPredictionModel(BINARY_COVERAGE_MODE, SIMILARITY_THRESHOLD)
-    coverage_estimator = CoverageEstimator(embedding_model, prediction_model, BINARY_COVERAGE_MODE)
+    coverage_estimator = CoverageEstimator(embedding_model, prediction_model,
+                                           BINARY_COVERAGE_MODE, BINARY_COVERAGE_THRESHOLD)
 
     ### DEBUG ###
     #test_path = "test/units/ansible_test/test_diff.py"
