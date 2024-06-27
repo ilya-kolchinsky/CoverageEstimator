@@ -1,0 +1,7 @@
+# input settings
+COVERAGE_DATA_PATH = ""
+CODE_BASE_ROOT_DIR = ""
+
+# advanced settings
+BINARY_COVERAGE_MODE = True
+SIMILARITY_THRESHOLD = 0.9

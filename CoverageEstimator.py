@@ -13,11 +13,11 @@ class CoverageEstimator(object):
         self.__is_binary = is_binary
 
     def load_data(self, data_path):
-        return np.genfromtxt(data_path, delimiter=',', skip_header=1)
+        return np.genfromtxt(data_path, dtype=str, delimiter=',', skip_header=1)
 
     def __extract_coverage_value(self, coverage_str):
         if self.__is_binary:
-            return "0" if coverage_str == "0" else "1"
+            return 0 if coverage_str == "0" else 1
         return int(coverage_str) * 0.01
 
     def train(self, training_set):
@@ -45,9 +45,9 @@ class CoverageEstimator(object):
         if self.__is_binary:
             # outputs and targets are labels representing ones and zeros
             accuracy = accuracy_score(targets, outputs)
-            precision = precision_score(targets, outputs, average='weighted')
-            recall = recall_score(targets, outputs, average='weighted')
-            f1 = f1_score(targets, outputs, average='weighted')
+            precision = precision_score(targets, outputs, average='binary')
+            recall = recall_score(targets, outputs, average='binary')
+            f1 = f1_score(targets, outputs, average='binary')
             conf_matrix = confusion_matrix(targets, outputs)
 
             print(f'Accuracy: {accuracy:.4f}')
@@ -75,6 +75,9 @@ class CoverageEstimator(object):
         The reason we put it here is to take care of the train/test split.
         """
         dataset = self.load_data(data_path)
+
+        ### DEBUG ###
+        dataset = dataset[::200]
 
         if not self.__prediction_model.can_be_trained():
             self.evaluate(dataset)
