@@ -3,9 +3,10 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 import numpy as np
 
+from consts import TEST_DATASET_SIZE
+
 
 class CoverageEstimator(object):
-    TEST_SIZE = 0.25
 
     def __init__(self, embedding_model, prediction_model, is_binary, binary_coverage_threshold=0):
         self.__embedding_model = embedding_model
@@ -79,12 +80,12 @@ class CoverageEstimator(object):
         dataset = self.load_data(data_path)
 
         ### DEBUG ###
-        dataset = dataset[::200]
+        #dataset = dataset[::100]
 
         if not self.__prediction_model.can_be_trained():
             self.evaluate(dataset)
             return
 
-        training_set, testing_set = train_test_split(dataset, test_size=self.TEST_SIZE)
+        training_set, testing_set = train_test_split(dataset, test_size=TEST_DATASET_SIZE)
         self.train(training_set)
         self.evaluate(testing_set)

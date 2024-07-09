@@ -1,8 +1,30 @@
 # input settings
-COVERAGE_DATA_PATH = ""
-CODE_BASE_ROOT_DIR = ""
+import os
 
-# advanced settings
+COVERAGE_DATA_PATH = "/Users/ikolchin/PycharmProjects/coverage.csv"
+CODE_BASE_ROOT_DIR = "/Users/ikolchin/PycharmProjects/ansible"
+
+# model-related settings
+SUPPORTED_SEQUENCE_TRANSFORMERS = (
+    'mchochlov/codebert-base-cd-ft',
+    'jinaai/jina-embeddings-v2-base-code',
+    'WhereIsAI/UAE-Code-Large-V1',
+    'davanstrien/code-prompt-similarity-model',
+    'flax-sentence-embeddings/st-codesearch-distilroberta-base',
+    'krlvi/sentence-t5-base-nlpl-code_search_net',
+                                   )
+SEQUENCE_TRANSFORMER_TYPE = SUPPORTED_SEQUENCE_TRANSFORMERS[0]
+TEST_DATASET_SIZE = 0.25
+
+# binary mode settings
 BINARY_COVERAGE_MODE = True
 BINARY_COVERAGE_THRESHOLD = 10
-SIMILARITY_THRESHOLD = 0.9
+
+# similarity calculation settings
+SIMILARITY_THRESHOLD = 0.99
+
+# file collection metrics
+SOURCE_FILE_EXTENSION = ".py"
+
+# authentication
+GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]

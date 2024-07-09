@@ -1,12 +1,13 @@
 from sentence_transformers import SentenceTransformer
 
 from CoverageEmbeddingModel import CoverageEmbeddingModel
+from consts import SEQUENCE_TRANSFORMER_TYPE
 
 
 class CodeBertEmbeddingModel(CoverageEmbeddingModel):
     def __init__(self, root_dir):
         super().__init__(root_dir)
-        self.__model = SentenceTransformer('mchochlov/codebert-base-cd-ft')
+        self.__model = SentenceTransformer(SEQUENCE_TRANSFORMER_TYPE)
 
     def _embed(self, code):
         return self.__model.encode(code)
