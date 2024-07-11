@@ -43,12 +43,14 @@ class LocalCodeFileSet(CodeFileSet):
 
 
 class GithubCodeFileSet(CodeFileSet):
-    def __init__(self, github_url=None, file_path=None):
+    def __init__(self, github_url=None, file_path=None, github_token=None):
         super().__init__()
 
         # TODO: code duplication with the previous class
         if github_url is None and file_path is None:
             raise Exception("No parameters provided for CodeFileSet")
+
+        self.__token = github_token if github_token is not None else GITHUB_TOKEN
 
         if file_path is not None:
             self.__url = None
@@ -72,7 +74,7 @@ class GithubCodeFileSet(CodeFileSet):
 
     def __list_files_in_github_directory(self):
         request_headers = {
-            'Authorization': f'token {GITHUB_TOKEN}',
+            'Authorization': f'token {self.__token}',
             'Accept': 'application/vnd.github.v3+json',
         }
 

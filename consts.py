@@ -18,6 +18,7 @@ TEST_DATASET_SIZE = 0.25
 
 # test selection settings
 DEFAULT_MAX_NUMBER_OF_TESTS = 3
+DEFAULT_PERCENTAGE_OF_TESTS = None
 DEFAULT_MIN_METRIC_VALUE = 0.9
 
 # binary mode settings
@@ -31,4 +32,4 @@ SIMILARITY_THRESHOLD = 0.99
 SOURCE_FILE_EXTENSION = ".py"
 
 # authentication
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")

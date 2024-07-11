@@ -40,14 +40,18 @@ class SimilarityBasedTestPrioritizer(TestPrioritizer):
         if change_paths_num > 1:
             raise NotImplementedError("Change sets of multiple files are not supported in this version.")
 
-        changed_file_code = change_set.path_to_code(change_set.get_file_paths()[0])
+        changed_file_path = change_set.get_file_paths()[0]
+        print(f'Processing modified source file {changed_file_path}...')
+        changed_file_code = change_set.path_to_code(changed_file_path)
         code_embedding = self.__embedding_model.embed_code(changed_file_code)
 
         result = []
 
         for test_path, test_code in self._test_set.get_content():
+            print(f'Processing test file {test_path}...')
             test_embedding = self.__embedding_model.embed_code(test_code)
             similarity = SimilarityThresholdPredictionModel.similarity(code_embedding, test_embedding)
             result.append((test_path, similarity, None))
 
+        print("Selecting test cases to recommend...")
         return sorted(result, key=lambda x: x[1], reverse=True)
