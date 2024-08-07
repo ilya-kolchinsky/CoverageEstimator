@@ -1,6 +1,6 @@
 from CoveragePredictionModel import CoveragePredictionModel
 
-import numpy as np
+from scipy.spatial.distance import *
 
 
 class SimilarityThresholdPredictionModel(CoveragePredictionModel):
@@ -9,11 +9,23 @@ class SimilarityThresholdPredictionModel(CoveragePredictionModel):
         self.__threshold = similarity_threshold
 
     @staticmethod
-    def similarity(vec1, vec2):
+    def __cosine_similarity(vec1, vec2):
         dot_product = np.dot(vec1, vec2)
         norm_vec1 = np.linalg.norm(vec1)
         norm_vec2 = np.linalg.norm(vec2)
         return dot_product / (norm_vec1 * norm_vec2)
+
+    @staticmethod
+    def similarity(vec1, vec2, similarity_type="cosine"):
+        if similarity_type == "cosine":
+            return SimilarityThresholdPredictionModel.__cosine_similarity(vec1, vec2)
+        if similarity_type == "euclidean":
+            return 1.0 / (1.0 + euclidean(vec1, vec2))
+        if similarity_type == "manhattan":
+            return 1.0 / (1.0 + cityblock(vec1, vec2))
+        if similarity_type == "minkowski":
+            return 1.0 / (1.0 + minkowski(vec1, vec2, 3))
+        raise Exception(f"Unsupported similarity mode {similarity_type}")
 
     def predict_coverage(self, test_embedding, code_embedding):
         similarity = self.similarity(test_embedding, code_embedding)

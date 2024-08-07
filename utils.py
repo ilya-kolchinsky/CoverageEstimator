@@ -1,7 +1,7 @@
 import csv
 from collections import defaultdict
 
-from CodeBertEmbeddingModel import CodeBertEmbeddingModel
+from SequenceTransformerEmbeddingModel import SequenceTransformerEmbeddingModel
 from SimilarityPredictionModel import SimilarityThresholdPredictionModel
 from consts import CODE_BASE_ROOT_DIR
 
@@ -35,7 +35,7 @@ def add_similarity_to_data(input_file, output_file):
 
     with open(output_file, 'w') as csvfile:
         csvwriter = csv.writer(csvfile)
-        embedding_model = CodeBertEmbeddingModel(CODE_BASE_ROOT_DIR)
+        embedding_model = SequenceTransformerEmbeddingModel(CODE_BASE_ROOT_DIR)
         for row in rows[1:]:
             X, Y, Z = row
             W = SimilarityThresholdPredictionModel.similarity(embedding_model.embed_path(X),

@@ -1,6 +1,7 @@
 import argparse
 
-from CodeBertEmbeddingModel import CodeBertEmbeddingModel
+from CodeT5EmbeddingModel import CodeT5EmbeddingModel
+from SequenceTransformerEmbeddingModel import SequenceTransformerEmbeddingModel
 from CodeFileSet import GithubCodeFileSet, LocalCodeFileSet
 from CoverageEstimator import CoverageEstimator
 from SelectionStrategy import ConstantNumberOfTestsSelectionStrategy
@@ -25,7 +26,7 @@ def execute_test_selection(is_remote, src_file_path_or_url, test_dir_path_or_url
     prioritizer = SimilarityBasedTestPrioritizer(test_set,
                                                  ConstantNumberOfTestsSelectionStrategy(max_number_of_tests,
                                                                                         percentage_of_tests),
-                                                 CodeBertEmbeddingModel(CODE_BASE_ROOT_DIR))
+                                                 SequenceTransformerEmbeddingModel(CODE_BASE_ROOT_DIR))
 
     print("Loading change set...")
     if is_remote:
@@ -54,7 +55,7 @@ def debug_test_selection(is_remote=True):
 
     prioritizer = SimilarityBasedTestPrioritizer(test_set,
                                                  ConstantNumberOfTestsSelectionStrategy(),
-                                                 CodeBertEmbeddingModel(CODE_BASE_ROOT_DIR))
+                                                 SequenceTransformerEmbeddingModel(CODE_BASE_ROOT_DIR))
 
     if is_remote:
         change_set = GithubCodeFileSet(
@@ -65,7 +66,7 @@ def debug_test_selection(is_remote=True):
 
 
 def execute_coverage_evaluation():
-    embedding_model = CodeBertEmbeddingModel(CODE_BASE_ROOT_DIR)
+    embedding_model = CodeT5EmbeddingModel(CODE_BASE_ROOT_DIR)
     prediction_model = SimilarityThresholdPredictionModel(BINARY_COVERAGE_MODE, SIMILARITY_THRESHOLD)
     coverage_estimator = CoverageEstimator(embedding_model, prediction_model,
                                            BINARY_COVERAGE_MODE, BINARY_COVERAGE_THRESHOLD)
@@ -73,7 +74,7 @@ def execute_coverage_evaluation():
 
 
 def debug_coverage_evaluation():
-    embedding_model = CodeBertEmbeddingModel(CODE_BASE_ROOT_DIR)
+    embedding_model = SequenceTransformerEmbeddingModel(CODE_BASE_ROOT_DIR)
     prediction_model = SimilarityThresholdPredictionModel(BINARY_COVERAGE_MODE, SIMILARITY_THRESHOLD)
     coverage_estimator = CoverageEstimator(embedding_model, prediction_model,
                                            BINARY_COVERAGE_MODE, BINARY_COVERAGE_THRESHOLD)
