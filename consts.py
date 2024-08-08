@@ -25,8 +25,12 @@ DEFAULT_MIN_METRIC_VALUE = 0.9
 BINARY_COVERAGE_MODE = True
 BINARY_COVERAGE_THRESHOLD = 10
 
+# enable or disable method- or function-wise coverage prediction
+DEFAULT_SPLIT_TESTS = True
+DEFAULT_SPLIT_FILES = False
+
 # similarity calculation settings
-SIMILARITY_THRESHOLD = 0.99
+SIMILARITY_THRESHOLD = 0.4
 
 # file collection metrics
 SOURCE_FILE_EXTENSION = ".py"

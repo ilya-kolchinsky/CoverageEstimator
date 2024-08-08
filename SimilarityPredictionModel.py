@@ -1,5 +1,7 @@
 from CoveragePredictionModel import CoveragePredictionModel
 
+import numpy as np
+
 from scipy.spatial.distance import *
 
 
@@ -27,8 +29,11 @@ class SimilarityThresholdPredictionModel(CoveragePredictionModel):
             return 1.0 / (1.0 + minkowski(vec1, vec2, 3))
         raise Exception(f"Unsupported similarity mode {similarity_type}")
 
+    def _similarity(self, test_embedding, code_embedding):
+        return self.similarity(test_embedding, code_embedding)
+
     def predict_coverage(self, test_embedding, code_embedding):
-        similarity = self.similarity(test_embedding, code_embedding)
+        similarity = self._similarity(test_embedding, code_embedding)
         if self.__is_binary:
             return 0.0 if similarity <= self.__threshold else 1.0
         # non-binary mode - a number between 0 and 1 has to be returned
